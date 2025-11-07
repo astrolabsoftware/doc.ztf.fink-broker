@@ -1,8 +1,8 @@
-The Science Portal is a web application ([https://fink-portal.org](https://fink-portal.org)) designed for querying and visualizing Fink-processed data. You can run simple queries and quickly display the results. After each night, the alert data is aggregated and pushed to HBase tables. This means you will not only have access to alert data, but also to object data; all alerts emitted from day zero for a given object in the sky will be available directly (whereas individual alert packets only contain 30 days of past data). Under the hood, it utilizes a publicly exposed REST API ([https://api.fink-portal.org](https://api.fink-portal.org)) that you can use to programmatically access the data.
+The Science Portal is a web application ([https://ztf.fink-portal.org](https://ztf.fink-portal.org)) designed for querying and visualizing Fink-processed data. You can run simple queries and quickly display the results. After each night, the alert data is aggregated and pushed to HBase tables. This means you will not only have access to alert data, but also to object data; all alerts emitted from day zero for a given object in the sky will be available directly (whereas individual alert packets only contain 30 days of past data). Under the hood, it utilizes a publicly exposed REST API ([https://api.ztf.fink-portal.org](https://api.ztf.fink-portal.org)) that you can use to programmatically access the data.
 
 ## Quick start Portal
 
-Open your favourite web browser, and go to [https://fink-portal.org](https://fink-portal.org). You will arrive on a page with a navigation bar on top, and a search bar in the middle:
+Open your favourite web browser, and go to [https://ztf.fink-portal.org](https://ztf.fink-portal.org). You will arrive on a page with a navigation bar on top, and a search bar in the middle:
 
 ![Screenshot](../../img/science_portal_front.png)
 
@@ -35,17 +35,17 @@ r = requests.post(ENDPOINT, json=ARGS)
 
 `ENDPOINT` is a specific URL (Uniform Resource Locator) where you can access data. Each endpoint corresponds to a particular function or resource in the API, allowing you to perform different types of queries. For example
 
-- `ENDPOINT = https://api.fink-portal.org/api/v1/objects` gives you access to objects based on their name
-- `ENDPOINT = https://api.fink-portal.org/api/v1/latests` gives you access to objects based on their classification.
+- `ENDPOINT = https://api.ztf.fink-portal.org/api/v1/objects` gives you access to objects based on their name
+- `ENDPOINT = https://api.ztf.fink-portal.org/api/v1/latests` gives you access to objects based on their classification.
 
-`ARGS` is a dictionary with the different arguments to your query. Each endpoint will have its own set of arguments that you can easily access by just navigating to the endpoint definition at [https://api.fink-portal.org](https://api.fink-portal.org). For example, let's access the data for the object ID `ZTF21aaxtctv`:
+`ARGS` is a dictionary with the different arguments to your query. Each endpoint will have its own set of arguments that you can easily access by just navigating to the endpoint definition at [https://api.ztf.fink-portal.org](https://api.ztf.fink-portal.org). For example, let's access the data for the object ID `ZTF21aaxtctv`:
 
 ```python
 import requests
 
 # get data for ZTF21aaxtctv
 r = requests.post(
-  "https://api.fink-portal.org/api/v1/objects",
+  "https://api.ztf.fink-portal.org/api/v1/objects",
   json={
     "objectId": "ZTF21aaxtctv",
     "output-format": "json"
@@ -53,7 +53,7 @@ r = requests.post(
 )
 ```
 
-We use the endpoint `https://api.fink-portal.org/api/v1/objects` with two parameters: the name of the desired object, and the format of the output. The result is encapsulated inside `r`. You can access it using various methods such as `r.json()` and `r.content`, but for convenience you can also use Pandas to nicely format the output:
+We use the endpoint `https://api.ztf.fink-portal.org/api/v1/objects` with two parameters: the name of the desired object, and the format of the output. The result is encapsulated inside `r`. You can access it using various methods such as `r.json()` and `r.content`, but for convenience you can also use Pandas to nicely format the output:
 
 ```python
 import io
@@ -65,7 +65,7 @@ pdf = pd.read_json(io.BytesIO(r.content))
 And you get a DataFrame (table) whose each row is an alert emitted when the object varies, and the columns are the available fields (see the [schema page](../../developers/schemas.md)). More options for this endpoint are discussed at [Search by name](objectid.md).
 
 !!! info "API documentation"
-    We expose at [https://api.fink-portal.org](https://api.fink-portal.org) a user interface to visualize and interact with the API's resources. It is automatically generated from our OpenAPI Specification, with the visual documentation making it easy for back end implementation and client side consumption. Try it out!
+    We expose at [https://api.ztf.fink-portal.org](https://api.ztf.fink-portal.org) a user interface to visualize and interact with the API's resources. It is automatically generated from our OpenAPI Specification, with the visual documentation making it easy for back end implementation and client side consumption. Try it out!
 
 Do not hesitate to explore all ways to query the data using the left bar of this documentation website! You will find other working examples on how to use the API using its [test suite](https://github.com/astrolabsoftware/fink-science-portal/tree/master/tests), and there are many tutorials at [https://github.com/astrolabsoftware/fink-tutorials](https://github.com/astrolabsoftware/fink-tutorials).
 

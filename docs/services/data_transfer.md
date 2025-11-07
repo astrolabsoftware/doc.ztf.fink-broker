@@ -6,7 +6,7 @@ This manual has been tested for `fink-client` version 9.2. In case of trouble, s
 
 ## Purpose
 
-The Data Transfer service allows users to explore and transfer historical data at scale: [https://fink-portal.org/download](https://fink-portal.org/download). This service lets users to select any observing nights for various surveys (ZTF, Elasticc simulations, and forthcoming LSST), define the content of the output, and stream data directly to anywhere!
+The Data Transfer service allows users to explore and transfer historical data at scale: [https://ztf.fink-portal.org/download](https://ztf.fink-portal.org/download). This service lets users to select any observing nights for various surveys (ZTF, Elasticc simulations, and forthcoming LSST), define the content of the output, and stream data directly to anywhere!
 
 In Fink we had so far two main services to interact with the alert data:
 
@@ -36,7 +36,7 @@ To ease the consuming step, the users are recommended to use the [fink-client](h
 
 ## Defining your query
 
-To start the service, connect to [https://fink-portal.org/download](https://fink-portal.org/download). The construction of the query is a guided process.
+To start the service, connect to [https://ztf.fink-portal.org/download](https://ztf.fink-portal.org/download). The construction of the query is a guided process.
 First choose the data source: ZTF or ELASTICC synthetic lightcurves. Then choose the dates for which you would like to get alert data using the calendar. You can choose multiple consecutive dates.
 
 ![2](../img/download_filters.png)

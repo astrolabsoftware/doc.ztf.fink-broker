@@ -12,7 +12,7 @@ The challenge now lies in integrating these fields to derive meaningful scientif
 
 !!! tip "Alert vs object classification"
 
-	An astronomical object on the sky can emit several alerts as its flux evolves, and based on available information on each alert, the classification can vary from one alert to another. We do not provide an _object_ classification, but rather classification for each alert. You will for example find the evolution of the classification in the Science Portal (e.g. [ZTF23aabqqoi](https://fink-portal.org/ZTF23aabqqoi)) just above the lightcurve:
+	An astronomical object on the sky can emit several alerts as its flux evolves, and based on available information on each alert, the classification can vary from one alert to another. We do not provide an _object_ classification, but rather classification for each alert. You will for example find the evolution of the classification in the Science Portal (e.g. [ZTF23aabqqoi](https://ztf.fink-portal.org/ZTF23aabqqoi)) just above the lightcurve:
 
 	![Screenshot](../img/fink-classification.png)
 
@@ -27,13 +27,13 @@ To facilitate the identification of noteworthy events, users can create filters 
 - Tags derived from cross-referencing with the Minor Planet Center database
 - Fundamental parameters such as emission time, real-bogus score, and star-galaxy score.
 
-This particular combination serves to identify [kilonova-like events](https://fink-portal.org/?action=class&class=Kilonova%20candidate), but alternative approaches could also be employed to achieve similar results.
+This particular combination serves to identify [kilonova-like events](https://ztf.fink-portal.org/?action=class&class=Kilonova%20candidate), but alternative approaches could also be employed to achieve similar results.
 
 ## Provided classification scheme by the Fink team
 
 Although creating filters aimed at specific events is ideal for targeted scientific inquiries and real-time requirements, we also aim to establish a comprehensive classification scheme. This scheme would facilitate preliminary searches in the Fink database, help users develop intuition, and allow for exploration of the sky without preconceived notions.
 
-In this respect, we established a basic alert classification scheme, based on the various sources of information listed above. Hundreds of classes have been infered, and they can be browsed at [https://api.fink-portal.org/api/v1/classes](https://api.fink-portal.org/api/v1/classes). They belong to 3 broad categories:
+In this respect, we established a basic alert classification scheme, based on the various sources of information listed above. Hundreds of classes have been infered, and they can be browsed at [https://api.ztf.fink-portal.org/api/v1/classes](https://api.ztf.fink-portal.org/api/v1/classes). They belong to 3 broad categories:
 
 1. Tags obtained from spatially cross-referencing with the SIMBAD database (e.g. `EB*`, `Blazar`, `gammaBurst`, `LensedQ`, etc.)
 2. Tags obtained from spatially cross-referencing with the TNS database (e.g. `SN Ia`, `TDE`, etc.)
@@ -60,7 +60,7 @@ import requests
 
 # Get latests 100 Early SN Ia candidates ID from Fink
 r = requests.post(
-    "https://api.fink-portal.org/api/v1/latests",
+    "https://api.ztf.fink-portal.org/api/v1/latests",
     json={
         "class": "Early SN Ia candidate",
         "columns": "i:objectId",
@@ -72,7 +72,7 @@ r = requests.post(
 # counterparts in TNS for each ZTF ID:
 for obj in r.json():
     r0 = requests.post(
-        "https://api.fink-portal.org/api/v1/resolver",
+        "https://api.ztf.fink-portal.org/api/v1/resolver",
         json={
             "resolver": "tns",
             "reverse": True,

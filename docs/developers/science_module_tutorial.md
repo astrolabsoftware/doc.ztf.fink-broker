@@ -133,7 +133,7 @@ Wrote HTML report to htmlcov/index.html
 
 ## Need more representative test data?
 
-There is test data in fink-science already, but it might not be enough representative of your science case. In that case, the best is to use the [Data Transfer](https://fink-portal.org/download) service to get tailored data for your test.
+There is test data in fink-science already, but it might not be enough representative of your science case. In that case, the best is to use the [Data Transfer](https://ztf.fink-portal.org/download) service to get tailored data for your test.
 
 !!! warning "Authentication"
     Make sure you have an account to use the [fink-client](https://github.com/astrolabsoftware/fink-client).

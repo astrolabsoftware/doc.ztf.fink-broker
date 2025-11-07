@@ -28,7 +28,7 @@ The class search can be combined with a trend, such as rising or fading. More in
 
 #### 2025-01-06: [API] /api/v1/columns becomes /api/v1/schema
 
-The endpoint `/api/v1/columns` has been renamed `/api/v1/schema` with the new API URL (see below). This means `https://fink-portal.org/api/v1/columns` becomes `https://api.fink-portal.org/api/v1/schema`.
+The endpoint `/api/v1/columns` has been renamed `/api/v1/schema` with the new API URL (see below). This means `https://ztf.fink-portal.org/api/v1/columns` becomes `https://api.ztf.fink-portal.org/api/v1/schema`.
 
 We encourage all users to update the URL as soon as possible and report any problems.
 
@@ -54,9 +54,9 @@ Note that these endpoints are still accessible from the old API URL until Januar
 
 #### 2025-01-06: [API] Migration to new API URL
 
-As part of the transition to a new system for Rubin, the URL to access the API will change from `https://fink-portal.org/api/v1/<endpoint>` to `https://api.fink-portal.org/api/v1/<endpoint>`. Both URLs will be valid until January 30, 2025, at which point only `https://api.fink-portal.org/api/v1/<endpoint>` will be valid. We encourage all users to update the URL as soon as possible and report any problems.
+As part of the transition to a new system for Rubin, the URL to access the API will change from `https://ztf.fink-portal.org/api/v1/<endpoint>` to `https://api.ztf.fink-portal.org/api/v1/<endpoint>`. Both URLs will be valid until January 30, 2025, at which point only `https://api.ztf.fink-portal.org/api/v1/<endpoint>` will be valid. We encourage all users to update the URL as soon as possible and report any problems.
 
-Note that the underlying code has been improved for better performance, and in addition to this documentation website, users can access the API documentation at [https://api.fink-portal.org](https://api.fink-portal.org) where all endpoints are detailed.
+Note that the underlying code has been improved for better performance, and in addition to this documentation website, users can access the API documentation at [https://api.ztf.fink-portal.org](https://api.ztf.fink-portal.org) where all endpoints are detailed.
 
 ---
 
@@ -69,7 +69,7 @@ import requests
 
 # get data for ZTF21aaxtctv
 r = requests.post(
-    'https://api.fink-portal.org/api/v1/cutouts',
+    'https://api.ztf.fink-portal.org/api/v1/cutouts',
     json={
         'objectId': 'ZTF21aaxtctv',
         'kind': 'All',
@@ -92,7 +92,7 @@ This is not available for FITS or PNG formats.
 
     # get data for ZTF21aaxtctv
     r = requests.post(
-        'https://api.fink-portal.org/api/v1/cutouts',
+        'https://api.ztf.fink-portal.org/api/v1/cutouts',
         json={
             'objectId': 'ZTF21aaxtctv',
             'kind': 'Science',

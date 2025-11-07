@@ -12,7 +12,7 @@ For a long time, we have provided a way to retrieve alerts based on a given sky 
 import requests
 
 r = requests.post(
-    "https://api.fink-portal.org/api/v1/conesearch",
+    "https://api.ztf.fink-portal.org/api/v1/conesearch",
     json={"ra": 279.675751, "dec": 37.048361, "radius": 1.5}
 )
 
@@ -32,7 +32,7 @@ o poll data.
 
 ## Fink xmatch service
 
-The Fink xmatch service is accessible from the Science Portal at [https://fink-portal.org/xmatch](https://fink-portal.org/xmatch). This is a guided process, very similar to the Data Transfer service. First, the user has the possibility to upload a catalog of sources:
+The Fink xmatch service is accessible from the Science Portal at [https://ztf.fink-portal.org/xmatch](https://ztf.fink-portal.org/xmatch). This is a guided process, very similar to the Data Transfer service. First, the user has the possibility to upload a catalog of sources:
 
 ![2](../img/catalog.png)
 

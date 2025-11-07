@@ -84,7 +84,7 @@ fink_science/filter_dyson_sphere/filter.py                     44      6    86% 
 
 ## Need more representative test data?
 
-There is test data in fink-filters already, but it might not be enough representative of your science case. In that case, the best is to use the [Data Transfer](https://fink-portal.org/download) service to get tailored data for your test.
+There is test data in fink-filters already, but it might not be enough representative of your science case. In that case, the best is to use the [Data Transfer](https://ztf.fink-portal.org/download) service to get tailored data for your test.
 
 !!! warning "Authentication"
     Make sure you have an account to use the [fink-client](https://github.com/astrolabsoftware/fink-client).

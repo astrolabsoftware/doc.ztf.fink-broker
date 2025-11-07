@@ -1,7 +1,7 @@
 ## Simple conesearch
 
 !!! info "List of arguments"
-    The list of arguments for running a conesearch can be found at [https://api.fink-portal.org](https://api.fink-portal.org).
+    The list of arguments for running a conesearch can be found at [https://api.ztf.fink-portal.org](https://api.ztf.fink-portal.org).
 
 This service allows you to search objects in the database matching in position on the sky given by (RA, Dec, radius). The initializer for RA/Dec is very flexible and supports inputs provided in a number of convenient formats. The following ways of initializing a conesearch are all equivalent:
 
@@ -20,10 +20,10 @@ In a unix shell, you would simply use
 # Get all objects falling within (center, radius) = ((ra, dec), radius)
 curl -H "Content-Type: application/json" -X POST \
     -d '{"ra":"193.822", "dec":"2.89732", "radius":"5"}' \
-    https://api.fink-portal.org/api/v1/conesearch -o conesearch.json
+    https://api.ztf.fink-portal.org/api/v1/conesearch -o conesearch.json
 
 # you can also specify parameters in the URL, e.g. with wget:
-wget "https://api.fink-portal.org/api/v1/conesearch?ra=193.822&dec=2.89732&radius=5&startdate=2021-06-10 05:59:37.000&window=7&output-format=json" -O conesearch.json
+wget "https://api.ztf.fink-portal.org/api/v1/conesearch?ra=193.822&dec=2.89732&radius=5&startdate=2021-06-10 05:59:37.000&window=7&output-format=json" -O conesearch.json
 ```
 
 In python, you would use
@@ -35,7 +35,7 @@ import pandas as pd
 
 # Get all objects falling within (center, radius) = ((ra, dec), radius)
 r = requests.post(
-  "https://api.fink-portal.org/api/v1/conesearch",
+  "https://api.ztf.fink-portal.org/api/v1/conesearch",
   json={
     "ra": "193.822",
     "dec": "2.89732",
@@ -62,7 +62,7 @@ import pandas as pd
 # Get all objects falling within (center, radius) = ((ra, dec), radius)
 # between 2021-06-25 05:59:37.000 (included) and 2021-07-01 05:59:37.000 (excluded)
 r = requests.post(
-  "https://api.fink-portal.org/api/v1/conesearch",
+  "https://api.ztf.fink-portal.org/api/v1/conesearch",
   json={
     "ra": "193.822",
     "dec": "2.89732",
@@ -89,14 +89,14 @@ _circle marks with dashed lines are results for a full scan search (~2 years of 
 There are two limitations to this endpoint:
 
 1. If several alerts from the same object match the query, we group information and only display the data from the last alert.
-2. By default all the fields from the conesearch table in Fink are downloaded. But this table contains only a subset of all [available alert fields](https://api.fink-portal.org/api/v1/schema) that you would have access with a [search by name](objectid.md) for example.
+2. By default all the fields from the conesearch table in Fink are downloaded. But this table contains only a subset of all [available alert fields](https://api.ztf.fink-portal.org/api/v1/schema) that you would have access with a [search by name](objectid.md) for example.
 
 Hence, if you need to query all the _objects_ data for _alerts_ found with a conesearch, or additional data that is not available in the class table, you would do it in two steps:
 
 ```python
 # Get the objectId for the alert(s) within a circle on the sky
 r0 = requests.post(
-  "https://api.fink-portal.org/api/v1/conesearch",
+  "https://api.ztf.fink-portal.org/api/v1/conesearch",
   json={
     "ra": "193.822",
     "dec": "2.89732",
@@ -110,7 +110,7 @@ mylist = [val["i:objectId"] for val in r0.json()]
 
 # get full lightcurves for all these alerts
 r1 = requests.post(
-  "https://api.fink-portal.org/api/v1/objects",
+  "https://api.ztf.fink-portal.org/api/v1/objects",
   json={
     "objectId": ",".join(mylist),
     "columns": "i:objectId,i:jd,i:magpsf,i:sigmapsf,d:rf_snia_vs_nonia", # (2)!

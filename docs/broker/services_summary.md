@@ -8,7 +8,7 @@ Now that we discussed the various components of Fink, it is time to access the d
 
     ---
 
-    The [Science Portal](https://fink-portal.org) is a web application that allows you to perform visualisation of aggregated data in Fink, run simple queries. It is best for daily inspection. Data source is from the Fink Database, and new data is available a few hours after the observing night has finished. No login required.
+    The [Science Portal](https://ztf.fink-portal.org) is a web application that allows you to perform visualisation of aggregated data in Fink, run simple queries. It is best for daily inspection. Data source is from the Fink Database, and new data is available a few hours after the observing night has finished. No login required.
 
     ![Screenshot](../img/science_portal_front.png)
 
