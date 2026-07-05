@@ -38,7 +38,7 @@ In order to connect and poll alerts from Fink, you first need to get your creden
 fink_client_register \
     -username <USERNAME> \ # given privately
     -group_id <GROUP_ID> \ # given privately
-    -mytopics <topic1 topic2 etc> \ # see https://doc.ztf.fink-broker.org/en/latest/broker/filters/
+    -mytopics <topic1 topic2 etc> \ # see https://doc.ztf.fink-broker.org/broker/filters/
     -servers kafka-ztf.fink-broker.org:24499 \
     -maxtimeout 10 \ # in seconds
      --verbose

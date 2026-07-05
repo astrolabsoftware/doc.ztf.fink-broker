@@ -82,7 +82,7 @@ export FINK_MAX_POLL_NUMBER= # int, number maximum of alerts to poll before clos
 export FINK_TIMEOUT= # int, in seconds. Default is 10 seconds if not set
 ```
 
-Credentials are provided when registering to Fink livestream (see [https://doc.ztf.fink-broker.org/en/latest/services/fink_client/](https://doc.ztf.fink-broker.org/en/latest/services/fink_client/)). The available topic names and description can be found at [https://doc.ztf.fink-broker.org/en/latest/broker/filters/#available-topics](https://doc.ztf.fink-broker.org/en/latest/broker/filters/#available-topics). Note that we currently allow to poll only one topic at once (multi-topic is planned for later). Then launch the `readstreams` service:
+Credentials are provided when registering to Fink livestream (see [https://doc.ztf.fink-broker.org/services/fink_client/](https://doc.ztf.fink-broker.org/services/fink_client/)). The available topic names and description can be found at [https://doc.ztf.fink-broker.org/broker/filters/#available-topics](https://doc.ztf.fink-broker.org/broker/filters/#available-topics). Note that we currently allow to poll only one topic at once (multi-topic is planned for later). Then launch the `readstreams` service:
 
 ```bash
 ./manage.py readstreams
