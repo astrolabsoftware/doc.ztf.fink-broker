@@ -15,7 +15,7 @@ As Kafka can be somehow cumbersome, we developed a client to facilitate the stre
 To ease the consuming step, the users are recommended to use the [fink-client](https://github.com/astrolabsoftware/fink-client), which is a wrapper around Apache Kafka. `fink_client` requires a version of Python 3.9+. Documentation to install the client can be found at [services/fink_client](fink_client.md). Note that you need to be registered in order t
 o poll data.
 
-For the list of available topics, see [https://doc.ztf.fink-broker.org/en/latest/broker/filters/#available-topics](https://doc.ztf.fink-broker.org/en/latest/broker/filters/#available-topics).
+For the list of available topics, see [https://doc.ztf.fink-broker.org/broker/filters/#available-topics](https://doc.ztf.fink-broker.org/broker/filters/#available-topics).
 
 ## First steps: testing the connection
 

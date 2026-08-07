@@ -63,7 +63,7 @@ rf_snia_vs_nonia > 0.5;
 snn_snia_vs_nonia > 0.5;
 ```
 
-See [here](https://zwickytransientfacility.github.io/ztf-avro-alert/) for the available ZTF fields. Note that ZTF fields most users want will typically start with `candidate.`. Fink added value fields can be found at [https://doc.ztf.fink-broker.org/en/latest/broker/science_modules/](https://doc.ztf.fink-broker.org/en/latest/broker/science_modules/).
+See [here](https://zwickytransientfacility.github.io/ztf-avro-alert/) for the available ZTF fields. Note that ZTF fields most users want will typically start with `candidate.`. Fink added value fields can be found at [https://doc.ztf.fink-broker.org/broker/science_modules/](https://doc.ztf.fink-broker.org/broker/science_modules/).
 
 Finally you can choose the content of the alerts to be returned. You have three types of content:
 1. Light packet: lightweight (~1.4 KB/alerts), this option transfers only necessary fields for working with lightcurves plus all Fink added values. Prefer this option to start.
