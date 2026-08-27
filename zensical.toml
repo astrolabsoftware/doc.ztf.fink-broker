@@ -49,9 +49,10 @@ nav = [
           { "Anomaly detection" = "services/search/anomaly_detection.md" },
           { "Troubleshooting" = "services/search/troubleshooting.md" }
         ]},
-        { "fink-client" = "services/fink_client.md" },
         { "Livestream" = "services/livestream.md" },
         { "Data Transfer" = "services/data_transfer.md" },
+        { "Fink bots" = "services/bots.md" },
+        { "Fink client" = "services/fink_client.md" },
         { "Xmatch" = "services/xmatch.md" },
         { "TOM Fink" = "services/tom_fink.md" },
         { "Troubleshooting" = "troubleshooting.md" },

@@ -1,8 +1,8 @@
 # Fink Data Transfer
 
-_date 29/08/2025_
+!!! info "Version 27/08/2026"
+    This manual has been tested for `fink-client` version 12.0. In case of trouble, send us an email (contact@fink-broker.org) or [open an issue :lucide-external-link:](https://github.com/astrolabsoftware/fink-client/issues){target="blank_"}. If you are coming from fink-client version 11, we recommend to authenticate again. See the [fink-client](fink_client.md) documentation.
 
-This manual has been tested for `fink-client` version 9.2. In case of trouble, send us an email (contact@fink-broker.org) or [open an issue](https://github.com/astrolabsoftware/fink-client/issues).
 
 ## Purpose
 
@@ -66,6 +66,7 @@ snn_snia_vs_nonia > 0.5;
 See [here](https://zwickytransientfacility.github.io/ztf-avro-alert/) for the available ZTF fields. Note that ZTF fields most users want will typically start with `candidate.`. Fink added value fields can be found at [https://doc.ztf.fink-broker.org/broker/science_modules/](https://doc.ztf.fink-broker.org/broker/science_modules/).
 
 Finally you can choose the content of the alerts to be returned. You have three types of content:
+
 1. Light packet: lightweight (~1.4 KB/alerts), this option transfers only necessary fields for working with lightcurves plus all Fink added values. Prefer this option to start.
 2. Full packet: original ZTF alerts plus all Fink added values.
 3. Any fields you want: instead of the pre-defined schema from above, you can also choose to download only the fields of interest for you. Prefer this option if you know what you want (and this will reduce greatly the volume of data to transfer).
@@ -92,13 +93,27 @@ On the submission web page, when you read the message:
 
 this means you can already start polling the data on your computer. You will then invoke for example (see the command on the right panel):
 
-```bash
-fink_datatransfer \
-    -topic <topic name> \
-    -outdir <output directory> \
-    -partitionby finkclass \
-    --verbose
-```
+=== "version 12"
+    ```bash
+    finkctl transfer \
+        -survey ztf \
+        -topic ftransfer_ztf_2026-02-24_34995 \
+        -outdir ftransfer_ztf_2026-02-24_34995 \
+        -partitionby finkclass \
+        --dump_schemas \
+        --verbose
+    ```
+
+=== "version 11"
+    ```bash
+    fink_datatransfer \
+        -survey ztf \
+        -topic ftransfer_ztf_2026-02-24_34995 \
+        -outdir ftransfer_ztf_2026-02-24_34995 \
+        -partitionby finkclass \
+        --dump_schemas \
+        --verbose
+    ```
 
 Alert data will be consumed and stored on disk. In this example data will be partitioned by alert class, this means the alerts will be stored by their classification label and you will have e.g.
 
@@ -148,46 +163,133 @@ pdf.head(2)
 
 You can stop the poll by hitting `CTRL+C` on your keyboard, and resume later. The poll will restart from the last offset, namely you will not have duplicate. In case you want to start polling data from the beginning of the stream, you can use the `--restart_from_beginning` option:
 
-```bash
-# Make sure <output directory> is empty or does not
-# exist to avoid duplicates.
-fink_datatransfer \
-    -topic <topic name> \
-    -outdir <output directory> \
-    -partitionby finkclass \
-    --verbose \
-    --restart_from_beginning
-```
+=== "version 12"
+    ```bash
+    # Make sure <output directory> is empty or does not
+    # exist to avoid duplicates.
+    finkctl transfer \
+        -topic <topic name> \
+        -survey ztf \
+        -partitionby finkclass \
+        -outdir <output directory> \
+        --verbose \
+        --restart_from_beginning
+    ```
+
+=== "version 11"
+    ```bash
+    # Make sure <output directory> is empty or does not
+    # exist to avoid duplicates.
+    fink_datatransfer \
+        -topic <topic name> \
+        -survey ztf \
+        -partitionby finkclass \
+        -outdir <output directory> \
+        --verbose \
+        --restart_from_beginning
+    ```
 
 Note that you can also partition by time (`year/month/day`) instead of partitioning by `finkclass`:
 
 ```bash
-fink_datatransfer \
+finkctl transfer \
+    -survey ztf \
     -topic <topic name> \
     -outdir <output directory> \
     -partitionby time \
     --verbose
 ```
 
-Finally you can inspect the schema of the alerts using the option `--dump_schema`:
+Finally you can inspect the schema of the alerts using the option `--dump_schemas`:
 
+=== "version 12"
+    ```bash
+    # Make sure <output directory> is empty or does not
+    # exist to avoid duplicates.
+    finkctl transfer \
+        -topic <topic name> \
+        -survey ztf \
+        -partitionby finkclass \
+        -outdir <output directory> \
+        --dump_schemas \
+        --verbose \
+        --restart_from_beginning
+    ```
 
-```bash
-# Make sure <output directory> is empty or does not
-# exist to avoid duplicates.
-fink_datatransfer \
-    -topic <topic name> \
-    -outdir <output directory> \
-    -partitionby finkclass \
-    --verbose \
-    --dump_schema
-```
+=== "version 11"
+    ```bash
+    # Make sure <output directory> is empty or does not
+    # exist to avoid duplicates.
+    fink_datatransfer \
+        -topic <topic name> \
+        -survey ztf \
+        -partitionby finkclass \
+        -outdir <output directory> \
+        --dump_schemas \
+        --verbose \
+        --restart_from_beginning
+    ```
+
+!!! warning "Argument name change"
+    in version 11, the argument previously called `--dump_schema` has been replaced by `--dump_schemas` to reflect the fact that we store both Arrow and Avro schemas.
 
 The option will produce a json file on disk whose name is `schema_<topic name>.json`. Schema can be inspected using e.g.:
 
 ```bash
 cat filename.json | jq
 ```
+
+### Avro files
+
+!!! tip "Storing data as Avro"
+    From version 11, data can be stored either as Parquet or Avro files. Default is Parquet.
+
+By default, the client will produce Parquet files. For version < 11, those files had issues with data type. While this has been corrected in version 11, we now also give the possibility to directly write data in Avro, that is without performing any conversion under the hood (Fink manipulates Avro). Simply specify the argument `--outformat avro`:
+
+=== "version 12"
+    ```bash
+    finkctl transfer \
+        -survey ztf \
+        -topic ftransfer_ztf_2026-02-24_34995 \
+        -outdir ftransfer_ztf_2026-02-24_34995 \
+        --dump_schemas \
+        -outformat avro \
+        --verbose
+    ```
+
+=== "version 11"
+    ```bash
+    fink_datatransfer \
+        -survey ztf \
+        -topic ftransfer_ztf_2026-02-24_34995 \
+        -outdir ftransfer_ztf_2026-02-24_34995 \
+        --dump_schemas \
+        -outformat avro \
+        --verbose
+    ```
+
+You can easily read data using Polars, or alternatively the client provides simple tools to read Avro file if you do not have a reader available:
+
+=== "Polars"
+    ```python
+    import polars as pl
+
+    pdf = pl.read_avro("ftransfer_ztf_2026-03-27_300346/")
+    ```
+
+=== "fink-client"
+    ```python
+    from fink_client.avro_utils import AlertReader
+
+    r = AlertReader("ftransfer_ztf_2026-03-27_300346/")
+
+    # Get a list of `size` alerts
+    alerts = r.to_list(size=1)
+
+    # Each alert is a dictionary
+    alerts[0]["candidate"]["magpsf"]
+    170028510532337794
+    ```
 
 ### Multiprocessing
 
@@ -196,15 +298,31 @@ By using this strategy, the service is able to simultaneously access different p
 
 By default, the client will use all available logical CPUs. You can also specify the number of CPUs to use, as well as the batch size from the command line:
 
-```bash
-fink_datatransfer \
-    -topic <topic name> \
-    -outdir <output directory> \
-    -partitionby finkclass \
-    -nconsumers 5 \
-    -batchsize 1000 \
-    --verbose
-```
+=== "version 12"
+    ```bash
+    finkctl transfer \
+        -topic <topic name> \
+        -outdir <output directory> \
+        -survey ztf \
+        -partitionby finkclass \
+        -nconsumers 5 \
+        -batchsize 1000 \
+        --dump_schemas \
+        --verbose
+    ```
+
+=== "version 11"
+    ```bash
+    fink_datatransfer \
+        -topic <topic name> \
+        -outdir <output directory> \
+        -survey ztf \
+        -partitionby finkclass \
+        -nconsumers 5 \
+        -batchsize 1000 \
+        --dump_schemas \
+        --verbose
+    ```
 
 More details on the expected performances are given in this [post](https://fink-broker.org/news/2023-01-17-data-transfer/).
 
