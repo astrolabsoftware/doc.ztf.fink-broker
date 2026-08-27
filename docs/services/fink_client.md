@@ -1,90 +1,136 @@
 # Fink client
 
-The [fink-client](https://github.com/astrolabsoftware/fink-client) is a thin wrapper around low level functionalities in Apache Kafka. The idea is to make stream consuming easy within Fink without the need to develop extra piece of code. 
+!!! info "Version 27/08/2026"
+    This manual has been tested for `fink-client` version 12.0. In case of trouble, send us an email (contact@fink-broker.org) or [open an issue :lucide-external-link:](https://github.com/astrolabsoftware/fink-client/issues){target="blank_"}.
 
-The fink-client is used in the context of 3 services: Livestream, Data Transfer, and Xmatch. This page explains how to install the client on a computer. 
+
+## Purpose
+
+The Fink ecosystem has evolved rapidly in recent years. Initially, in 2020, the fink-client was only a wrapper around the Kafka consumer API to simplify the work of astronomers and other users performing follow-up with the Fink/ZTF Livestream service. In 2023 the client was expanded to support the Data Transfer service, and in 2025 support for the ZTF Xmatch service was added. Neither its core nor its interface changed much during that time.
+
+With the start of LSST, the number of client connections and the need to access additional services grew quickly. For that reason we completely redesigned the CLI in version 12, and added two more services: bots (an extension of the Livestream) and search (a wrapper around the REST API). We hope you enjoy it!
 
 ## Installation of fink-client
 
-`fink_client` requires a version of Python 3.9+.
-
-### Install with pip
-
-From a terminal, you can install fink-client simply using `pip`:
+You would simply install the latest version of the client using pip in your terminal:
 
 ```bash
 pip install fink-client --upgrade
 ```
 
-### Use or develop in a controlled environment
-
-For development, we recommend the use of a virtual environment:
+Check the client is correctly installed by running:
 
 ```bash
-git clone https://github.com/astrolabsoftware/fink-client.git
-cd fink-client
-python -m venv .fc_env
-source .fc_env/bin/activate
-pip install -r requirements.txt
-pip install .
+finkctl
 ```
 
-## Registering
+You should see the help menu, together with the version of the client.
 
-In order to connect and poll alerts from Fink, you first need to get your credentials. Subscribe by filling this [form](https://forms.gle/2td4jysT4e9pkf889) (same than for the livestream service -- so you do not need to it twice). After filling the form, we will send your credentials. Register them on your laptop by simply running on a terminal:
+## Authentication
+
+For some services, such as the Data Transfer and the Livestream, you must register before polling data. Please refer to the "Registration" section in the [fink-client :lucide-external-link:](https://github.com/astrolabsoftware/fink-client#registration){target="blank_"} GitHub repository. 
+
+## Migration from version 11 to 12
+
+!!! important "Migration from version 11 to 12"
+
+    If you are coming from the client version 11, you will need a few changes for the client to work again.
+
+    ### Authentication
+
+    We recommend that you run again the authentication as the configuration files slightly changed. For this, just remove your current configuration, and authenticate again:
+
+    ```bash
+    # backup old configuration
+    cp -r ~/.finkclient ~/.finkclient_$(date +%Y%m%d)
+
+    # Remove old configuration
+    rm -r ~/.finkclient
+
+    # Authenticate again
+    finkctl auth register ...
+    ```
+
+    In case you are unsure about the parameters to fill, you can access the documentation by running:
+
+    ```bash
+    finkctl auth register
+    ```
+
+    and you can also display the current configuration by running:
+
+    ```bash
+    finkctl auth show -survey ztf
+    ```
+
+    ### Commands mapping
+
+    In version 12, the old commands have been replaced:
+
+    - `fink_client_register` --> `finkctl auth register`
+    - `fink_consumer` --> `finkctl stream`
+    - `fink_datatransfer` --> `finkctl transfer`
+
+    Options to these commands remain the same!
+
+    ### Subscribe to topics
+
+    The topic management changed a lot with version 12. First, you can easily list the available topics for a survey using:
+
+    ```bash
+    finkctl topic list -survey ztf
+    ```
+
+    Once you identify a topic of interest, just subscribe using:
+
+    ```bash
+    finkctl topic subscribe -survey ztf -name <topic name>
+    ```
+
+    You can check your subscription at any time using:
+
+    ```bash
+    finkctl auth show -survey ztf
+    ```
+
+## How-to
+
+### How to register?
+
+Based on the information sent when you asked for credentials, authenticate using the `auth` command:
 
 ```bash
-# access help using `fink_client_register -h`
-fink_client_register \
-    -username <USERNAME> \ # given privately
-    -group_id <GROUP_ID> \ # given privately
-    -mytopics <topic1 topic2 etc> \ # see https://doc.ztf.fink-broker.org/broker/filters/
-    -servers kafka-ztf.fink-broker.org:24499 \
-    -maxtimeout 10 \ # in seconds
-     --verbose
+finkctl auth register ...
 ```
 
-where `<USERNAME>` and `<GROUP_ID>` have been sent to you privately. By default, the credentials are installed in the home:
+In case you are unsure about the parameters to fill, you can access the documentation by running:
 
 ```bash
-cat ~/.finkclient/credentials.yml
+finkctl auth register
 ```
 
-## Available tools
-
-Depending on the service you are using, you will use a different tool to retrieve your data from the Fink Kafka cluster:
-
-- The `Livestream` service relies on `fink_consumer`
-- The `Data Transfer` service relies on `fink_datatransfer`
-- The `Xmatch` service relies on `fink_datatransfer` as well.
-
-For each tool, you can access its documentation by using the `-h` option:
+and you can also display the current configuration by running:
 
 ```bash
-$ fink_consumer -h
-usage: fink_consumer [-h] [--display] [--display_statistics] [-limit LIMIT]
-                     [--available_topics] [--save] [-outdir OUTDIR]
-                     [-schema SCHEMA] [--dump_schema] [-start_at START_AT]
-
-Kafka consumer to listen and archive Fink streams from the Livestream service
-
-options:
-  -h, --help            show this help message and exit
-  --display             If specified, print on screen information about incoming
-                        alert.
-  --display_statistics  If specified, print on screen information about queues,
-                        and exit.
-  -limit LIMIT          If specified, download only `limit` alerts. Default is
-                        None.
-  --available_topics    If specified, print on screen information about
-                        available topics.
-  --save                If specified, save alert data on disk (Avro). See also
-                        -outdir.
-  -outdir OUTDIR        Folder to store incoming alerts if --save is set. It
-                        must exist.
-  -schema SCHEMA        Avro schema to decode the incoming alerts. Default is
-                        None (version taken from each alert)
-  --dump_schema         If specified, save the schema on disk (json file)
-  -start_at START_AT    If specified, reset offsets to 0 (`earliest`) or empty
-                        queue (`latest`).
+finkctl auth show -survey ztf
 ```
+
+### How to get data from the Data Transfer service?
+
+Documentation for using the Data Transfer and polling data with the fink-client is available in the [Data Transfer section](data_transfer.md).
+
+### How to know available topics for the Livestream service?
+
+For the list of available topics, see [https://doc.ztf.fink-broker.org/broker/filters/#available-topics](https://doc.ztf.fink-broker.org/broker/filters/#available-topics). From version 12, you can also access this list programmatically:
+
+```bash
+finkctl topic list -survey ztf
+```
+
+### How to connect to an alert topic produced by Fink?
+
+Documentation for polling data from the Livestream with the fink-client is available in the [Livestream section](livestream.md).
+
+### How to create a Fink bot for my alert topic?
+
+Documentation for creating and running Fink bots with the fink-client is available in the [Fink bots section](bots.md).
