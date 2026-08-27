@@ -1,7 +1,5 @@
 # Livestream
 
-_date 27/08/2026_
-
 !!! info "Version 27/08/2026"
     This manual has been tested for `fink-client` version 12.0. In case of trouble, send us an email (contact@fink-broker.org) or [open an issue :lucide-external-link:](https://github.com/astrolabsoftware/fink-client/issues){target="blank_"}. If you are coming from fink-client version 11, we recommend to authenticate again. See the   [fink-client](fink_client.md) documentation.
 
