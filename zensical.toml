@@ -51,6 +51,7 @@ nav = [
         ]},
         { "Livestream" = "services/livestream.md" },
         { "Data Transfer" = "services/data_transfer.md" },
+        { "Fink AI" = "services/fink_ai.md" },
         { "Fink bots" = "services/bots.md" },
         { "Fink client" = "services/fink_client.md" },
         { "Xmatch" = "services/xmatch.md" },
